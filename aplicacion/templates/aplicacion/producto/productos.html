@@ -1,0 +1,46 @@
+{% extends 'layout/index.html' %}
+
+{% block titulo %}
+    
+<div class="flex justify-between content-center w-full">
+    <h1 class="text-3xl text-center font-bold">
+        Productos
+    </h1>
+    <div class="flex content-center">
+        <a href="./agregar" class="font-medium text-black p-4 py-2 border-2 border-transparent hover:border-inherit hover:border-2 hover:rounded-2xl mr-2"><span class="mr-2"><i class="fa-solid fa-plus"></i></span> Agregar Producto</a>
+        <form action="{% url 'producto_encontrar' %}" method="GET">
+            {% csrf_token %}
+    
+            <input type="text" name="buscar" id="buscar" class="p-2 border-2 border-black rounded-xl">
+    
+            <input type="submit" value="Buscar" class="p-2 bg-black border-2 border-black text-white rounded-xl cursor-pointer"></input>
+    
+        </form>
+    </div>
+</div>
+
+
+{% endblock titulo %}
+
+{% block contenido %}
+    
+    <table class="border-collapse w-full border border-slate-400 dark:border-slate-500 bg-white dark:bg-slate-800 text-sm shadow-sm">
+        <thead class="bg-slate-50 dark:bg-slate-700">
+            <tr>
+                <th class="w-1/10 border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Id</th>
+                <th class="w-1/2 border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Nombre</th>
+                <th class="w-1/2 border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Detalle</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+                <tr>
+                    <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ producto.id }}</td>
+                    <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ producto.nombre }}</td>
+                    <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ producto.detalle }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock contenido %}

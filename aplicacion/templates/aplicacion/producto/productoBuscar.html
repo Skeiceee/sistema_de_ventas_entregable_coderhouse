@@ -1,0 +1,24 @@
+{% extends 'layout/index.html' %}
+
+
+{% block titulo %}
+    
+<h1 class="text-3xl text-center font-bold">
+    Buscar Producto
+</h1>
+
+{% endblock titulo %}
+    
+
+
+{% block contenido %}
+    <form action="{% url 'producto_encontrar' %}" method="GET">
+        {% csrf_token %}
+
+        <p>Ingrese cadena a buscar:</p>
+        <input type="text" name="buscar" id="buscar">
+
+        <input type="submit" value="Buscar"></input>
+
+    </form>
+{% endblock contenido %}

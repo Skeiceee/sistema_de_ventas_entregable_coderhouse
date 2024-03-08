@@ -1,0 +1,26 @@
+{% extends 'layout/index.html' %}
+
+
+{% block titulo %}
+    
+<h1 class="text-3xl text-center font-bold">
+    Agregar Vendedor
+</h1>
+
+{% endblock titulo %}
+    
+
+
+{% block contenido %}
+    <form action="" method="POST">
+        
+        {% csrf_token %}
+
+        <table>
+            {{ form.as_table }}
+        </table>
+
+        <input type="submit" value="Agregar"></input>
+
+    </form>
+{% endblock contenido %}
