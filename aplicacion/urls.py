@@ -11,8 +11,8 @@ urlpatterns = [
  
     path('acerca/', acerca , name="acerca"),
 
-    path('productos/agregar', productosForm , name="producto_form"),
-    path('vendedores/agregar', vendedorForm , name="vendedor_form"),
+    path('productos/agregar', productoCreate , name="producto_create"),
+    path('vendedores/agregar', vendedorCreate , name="vendedor_create"),
 
     path('productos/buscar', productoBuscar , name="producto_buscar"),
     path('productos/encontrar', productoEncontrar , name="producto_encontrar"),
