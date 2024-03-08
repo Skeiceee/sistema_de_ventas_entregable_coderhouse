@@ -11,3 +11,7 @@ http://localhost:8000/vendedores/
 Contiene:
   * Agregar Vendedor
   * Buscar Vendedor
+
+# General
+Los modelos se encuentran en:
+  * aplicacion\models.py
