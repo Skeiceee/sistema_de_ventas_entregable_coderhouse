@@ -4,7 +4,7 @@
 {% block titulo %}
     
 <h1 class="text-3xl text-center font-bold">
-    Agregar Producto
+    Iniciar Sesión
 </h1>
 
 {% endblock titulo %}
@@ -12,7 +12,7 @@
 
 
 {% block contenido %}
-    <form action="" method="POST">
+    <form class="form-style" action="" method="POST">
         
         {% csrf_token %}
 
@@ -20,7 +20,9 @@
             {{ form.as_table }}
         </table>
 
-        <input type="submit" value="Guardar"></input>
+        <div class="flex justify-center mt-10">
+            <input class="btn-submit" type="submit" value="Enviar"></input>
+        </div>
 
     </form>
 {% endblock contenido %}

@@ -6,6 +6,7 @@
     <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/b6943bc50c.js" crossorigin="anonymous"></script>
 
@@ -18,10 +19,25 @@
             <a class="flex-none text-xl font-semibold text-white mt-4" href="{% url 'home' %}">Ventas</a>
             <div class="mt-4 flex flex-wrap gap-4">
                 <a class="font-medium text-white p-4 py-2 border-2 border-transparent hover:border-inherit hover:border-2 hover:rounded-2xl" href="{% url 'home' %}" aria-current="page"><span class="mr-2"><i class="fa-solid fa-house"></i></span>Home</a>
-                <a class="font-medium text-white p-4 py-2 border-2 border-transparent hover:border-inherit hover:border-2 hover:rounded-2xl" href="{% url 'productos' %}" aria-current="page"><span class="mr-2"><i class="fa-solid fa-boxes-stacked"></i></span>Productos</a>
-                <a class="font-medium text-white p-4 py-2 border-2 border-transparent hover:border-inherit hover:border-2 hover:rounded-2xl" href="{% url 'vendedores' %}" aria-current="page"><span class="mr-2"><i class="fa-solid fa-user-tie"></i></span>Vendedores</a>
-                <a class="font-medium text-white p-4 py-2 border-2 border-transparent hover:border-inherit hover:border-2 hover:rounded-2xl" href="{% url 'compradores' %}" aria-current="page"><span class="mr-2"><i class="fa-solid fa-user"></i></span>Compradores</a>
-                <a class="font-medium text-white p-4 py-2 border-2 border-transparent hover:border-inherit hover:border-2 hover:rounded-2xl" href="{% url 'ventas' %}" aria-current="page"><span class="mr-2"><i class="fa-solid fa-arrow-down"></i></span>Ventas</a>
+                
+                {% if user.is_authenticated %}
+                    <a class="font-medium text-white p-4 py-2 border-2 border-transparent hover:border-inherit hover:border-2 hover:rounded-2xl" href="{% url 'productos' %}" aria-current="page"><span class="mr-2"><i class="fa-solid fa-boxes-stacked"></i></span>Productos</a>
+                    <a class="font-medium text-white p-4 py-2 border-2 border-transparent hover:border-inherit hover:border-2 hover:rounded-2xl" href="{% url 'vendedores' %}" aria-current="page"><span class="mr-2"><i class="fa-solid fa-user-tie"></i></span>Vendedores</a>
+                    <a class="font-medium text-white p-4 py-2 border-2 border-transparent hover:border-inherit hover:border-2 hover:rounded-2xl" href="{% url 'compradores' %}" aria-current="page"><span class="mr-2"><i class="fa-solid fa-user"></i></span>Compradores</a>
+                    <a class="font-medium text-white p-4 py-2 border-2 border-transparent hover:border-inherit hover:border-2 hover:rounded-2xl" href="{% url 'ventas' %}" aria-current="page"><span class="mr-2"><i class="fa-solid fa-arrow-down"></i></span>Ventas</a>
+                    <div class="flex justify-center items-center text-white border-2 rounded-2xl px-2 pr-4">
+                        <p class="px-2">{{user.username}}</p>
+
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button class="font-medium text-white p-4 py-2 border-2 border-transparent hover:border-inherit hover:border-2 hover:rounded-2xl" type="submit"><span class="mr-2"><i class="fa-solid fa-right-from-bracket"></i></span>Cerrar Sesión</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <a class="font-medium text-white p-4 py-2 border-2 border-transparent hover:border-inherit hover:border-2 hover:rounded-2xl" href="{% url 'login' %}" aria-current="page"><span class="mr-2"><i class="fa-solid fa-right-to-bracket"></i></span>Iniciar Sesión</a>
+                    <a class="font-medium text-white p-4 py-2 border-2 border-transparent hover:border-inherit hover:border-2 hover:rounded-2xl" href="{% url 'register' %}" aria-current="page"><span class="mr-2"><i class="fa-solid fa-user"></i></span>Registrarse</a>
+                {% endif %}
+                    
             </div>
         </nav>
     </header>
