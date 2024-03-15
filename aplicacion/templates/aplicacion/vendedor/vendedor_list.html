@@ -50,6 +50,10 @@
                         </div>
                     </td> 
                 </tr>
+            {% empty %}
+                <tr>
+                    <th colspan="4" class="p-5">No hay vendedores</th>
+                </tr>
             {% endfor %}
         </tbody>
     </table>

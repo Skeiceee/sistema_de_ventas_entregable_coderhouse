@@ -119,10 +119,36 @@ def compradorEncontrar(request):
 
 
 # Venta
-@login_required
-def ventas(request):
-    context = { 'ventas': Venta.objects.all().order_by("id") }
-    return render(request, 'aplicacion/venta/ventas.html', context)
+class VentaList(LoginRequiredMixin, ListView):
+    model = Venta
+    template_name = 'aplicacion/venta/venta_list.html'
+
+class VentaCreate(LoginRequiredMixin, CreateView):
+    model = Venta
+    template_name = 'aplicacion/venta/venta_form.html'
+    fields = ["nombreVendedor", "nombreComprador", "fechaDeCompra", "entregado"]
+    success_url = reverse_lazy('vendedores')
+
+class VentaUpdate(LoginRequiredMixin, UpdateView):
+    model = Venta
+    template_name = 'aplicacion/venta/venta_form.html'
+    fields = ["nombreVendedor", "nombreComprador", "fechaDeCompra", "entregado"]
+    success_url = reverse_lazy('vendedores')
+
+class VentaDelete(LoginRequiredMixin, DeleteView):
+    model = Venta
+    template_name = 'aplicacion/venta/venta_confirm_delete.html'
+    success_url = reverse_lazy('ventas')
+
+def ventaEncontrar(request):
+    if request.GET["buscar"]:
+        patron = request.GET["buscar"]
+        ventas = Venta.objects.filter(nombre__icontains=patron)
+        context = { 'venta_list': ventas }
+        return render(request, 'aplicacion/venta/venta_list.html', context)
+    
+    context = { 'venta_list': Venta.objects.all() }
+    return render(request, 'aplicacion/venta/venta_list.html', context)
 
 #Auth
 def login_request(request):
@@ -137,7 +163,7 @@ def login_request(request):
             try:
                 avatar = Avatar.objects.get(user=request.user.id).imagen.url
             except:
-                avatar = "/media/avatares/default.png"
+                avatar = "/media/avatares/default.svg"
             finally:
                 request.session["avatar"] = avatar
 

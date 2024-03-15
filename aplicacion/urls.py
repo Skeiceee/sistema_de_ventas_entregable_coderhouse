@@ -5,16 +5,15 @@ from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('', home , name="home"),
+    path('acerca/', acerca , name="acerca"),
 
     path('login/', login_request, name="login"),
     path('registrar/', register, name="register"),
     path('logout/', LogoutView.as_view(template_name="aplicacion/logout.html"), name="logout"),
+
     path('perfil/', editProfile, name="profile"),
     path('cambiar/contraseña/', editPassword, name="password_change"),
     path('agregar/avatar/', addAvatar, name="add_avatar"),
-    path('acerca/', acerca , name="acerca"),
-
-    path('ventas/', ventas , name="ventas"),
 
     path('productos/', ProductoList.as_view(), name="productos"),
     path('productos/agregar', ProductoCreate.as_view(), name="producto_create"),
@@ -33,5 +32,11 @@ urlpatterns = [
     path('compradores/editar/<int:pk>', CompradorUpdate.as_view(), name="comprador_update"),
     path('compradores/eliminar/<int:pk>', CompradorDelete.as_view(), name="comprador_delete"),
     path('compradores/encontrar', compradorEncontrar , name="comprador_encontrar"),
+
+    path('ventas/', VentaList.as_view(), name="ventas"),
+    path('ventas/agregar', VentaCreate.as_view(), name="venta_create"),
+    path('ventas/editar/<int:pk>', VentaUpdate.as_view(), name="venta_update"),
+    path('ventas/eliminar/<int:pk>', VentaDelete.as_view(), name="venta_delete"),
+    path('ventas/encontrar', ventaEncontrar , name="venta_encontrar"),
 
 ]

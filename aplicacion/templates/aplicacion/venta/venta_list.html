@@ -4,11 +4,11 @@
     
 <div class="flex flex-wrap justify-between content-center w-full">
     <h1 class="text-3xl text-center font-bold">
-        Compradores
+        Ventas
     </h1>
     <div class="flex flex-wrap content-center">
-        <a href="{% url 'comprador_create' %}" class="font-medium text-black p-4 py-2 border-2 border-transparent hover:border-inherit hover:border-2 hover:rounded-2xl mr-2"><span class="mr-2"><i class="fa-solid fa-plus"></i></span> Agregar Comprador</a>
-        <form action="{% url 'comprador_encontrar' %}" method="GET">
+        <a href="{% url 'venta_create' %}" class="font-medium text-black p-4 py-2 border-2 border-transparent hover:border-inherit hover:border-2 hover:rounded-2xl mr-2"><span class="mr-2"><i class="fa-solid fa-plus"></i></span> Agregar Venta</a>
+        <form action="{% url 'venta_encontrar' %}" method="GET">
             {% csrf_token %}
     
             <input type="text" name="buscar" id="buscar" class="p-2 border-2 border-black rounded-xl">
@@ -30,28 +30,26 @@
             <tr>
                 <th class="border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Id</th>
                 <th class="border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Nombre</th>
-                <th class="border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Apellido</th>
-                <th class="border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Email</th>
+                <th class="border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Detalle</th>
                 <th class="w-10 border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Acciones</th>
             </tr>
         </thead>
         <tbody>
-            {% for comprador in comprador_list %}
+            {% for venta in venta_list %}
                 <tr>
-                    <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ comprador.id }}</td>
-                    <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ comprador.nombre }}</td>
-                    <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ comprador.apellido }}</td>
-                    <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ comprador.email }}</td>
+                    <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ venta.id }}</td>
+                    <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ venta.nombre }}</td>
+                    <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ venta.detalle }}</td>
                     <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">
                         <div class="flex justify-between gap-2">
-                            <a href="{% url 'comprador_update' comprador.id %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <a href="{% url 'comprador_delete' comprador.id %}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"><i class="fa-solid fa-trash"></i></a>
+                            <a href="{% url 'venta_update' venta.id %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="{% url 'venta_delete' venta.id %}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"><i class="fa-solid fa-trash"></i></a>
                         </div>
                     </td>
                 </tr>
             {% empty %}
                 <tr>
-                    <th colspan="4" class="p-5">No hay compradores</th>
+                    <th colspan="4" class="p-5">No hay ventas</th>
                 </tr>
             {% endfor %}
         </tbody>
