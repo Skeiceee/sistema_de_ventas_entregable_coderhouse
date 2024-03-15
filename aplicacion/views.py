@@ -5,145 +5,85 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import *
 from .forms import *
 
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, authenticate, update_session_auth_hash
+
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeView
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+
+from django.contrib import messages
 
 # Create your views here.
 def home(request):
     return render(request, 'aplicacion/home.html')
 
 # Producto
-@login_required
-def productos(request):
-    context = { 'productos': Producto.objects.all().order_by("id")}
-    return render(request, 'aplicacion/producto/productos.html', context)
+class ProductoList(LoginRequiredMixin, ListView):
+    model = Producto
+    template_name = 'aplicacion/producto/producto_list.html'
 
-@login_required
-def productoCreate(request):
-    if request.method == "POST":
-        myForm = ProductoForm(request.POST)
+class ProductoCreate(LoginRequiredMixin, CreateView):
+    model = Producto
+    template_name = 'aplicacion/producto/producto_form.html'
+    fields = ["nombre", "detalle"]
+    success_url = reverse_lazy('productos')
 
-        if myForm.is_valid():
-            nombre = myForm.cleaned_data.get("nombre")
-            detalle = myForm.cleaned_data.get("detalle")
-            producto = Producto(nombre=nombre, detalle=detalle)
-            producto.save()
+class ProductoUpdate(LoginRequiredMixin, UpdateView):
+    model = Producto
+    template_name = 'aplicacion/producto/producto_form.html'
+    fields = ["nombre", "detalle"]
+    success_url = reverse_lazy('productos')
 
-            return redirect(reverse_lazy('productos'))
+class ProductoDelete(LoginRequiredMixin, DeleteView):
+    model = Producto
+    template_name = 'aplicacion/producto/producto_confirm_delete.html'
+    success_url = reverse_lazy('productos')
 
-    else:
-        myForm = ProductoForm()
-
-    return render(request, "aplicacion/producto/productoForm.html", {"form": myForm})
-@login_required
-def productoUpdate(request, id_producto):
-    producto = Producto.objects.get(id=id_producto)
-
-    if request.method == "POST":
-        myForm = ProductoForm(request.POST)
-
-        if myForm.is_valid():
-            producto.nombre = myForm.cleaned_data.get("nombre")
-            producto.detalle = myForm.cleaned_data.get("detalle")
-            producto.save()
-
-            return redirect(reverse_lazy('productos'))
-    else:
-        myForm = ProductoForm(initial={'nombre':producto.nombre, 'detalle':producto.detalle})
-
-    return render(request, "aplicacion/producto/productoForm.html", {"form": myForm})
-@login_required
-def productoDelete(request, id_producto):
-    producto = Producto.objects.get(id=id_producto)
-    producto.delete()
-
-    return redirect(reverse_lazy('productos'))
-@login_required
-def productoBuscar(request):
-    return render(request, "aplicacion/producto/productoBuscar.html")
 @login_required
 def productoEncontrar(request):
     if request.GET["buscar"]:
         patron = request.GET["buscar"]
         productos = Producto.objects.filter(nombre__icontains=patron)
-        context = { 'productos': productos }
-        return render(request, 'aplicacion/producto/productos.html', context)
+        context = { 'producto_list': productos }
+        return render(request, 'aplicacion/producto/producto_list.html', context)
     
-    context = { 'productos': Producto.objects.all() }
-    return render(request, 'aplicacion/producto/productos.html', context)
+    context = { 'producto_list': Producto.objects.all() }
+    return render(request, 'aplicacion/producto/producto_list.html', context)
 
 # Vendedor
-@login_required
-def vendedores(request):
-    context = { 'vendedores': Vendedor.objects.all().order_by("id") }
-    return render(request, 'aplicacion/vendedor/vendedores.html', context)
+class VendedorList(LoginRequiredMixin, ListView):
+    model = Vendedor
+    template_name = 'aplicacion/vendedor/vendedor_list.html'
 
-@login_required
-def vendedorCreate(request):
-    if request.method == "POST":
-        myForm = VendedorForm(request.POST)
+class VendedorCreate(LoginRequiredMixin, CreateView):
+    model = Vendedor
+    template_name = 'aplicacion/vendedor/vendedor_form.html'
+    fields = ["nombre", "apellido", "email", "rubro"]
+    success_url = reverse_lazy('vendedores')
 
-        if myForm.is_valid():
-            nombre = myForm.cleaned_data.get("nombre")
-            apellido = myForm.cleaned_data.get("apellido")
-            email = myForm.cleaned_data.get("email")
-            rubro = myForm.cleaned_data.get("rubro")
+class VendedorUpdate(LoginRequiredMixin, UpdateView):
+    model = Vendedor
+    template_name = 'aplicacion/vendedor/vendedor_form.html'
+    fields = ["nombre", "apellido", "email", "rubro"]
+    success_url = reverse_lazy('vendedores')
 
-            vendedor = Vendedor(nombre=nombre, apellido=apellido, email=email, rubro=rubro)
-            vendedor.save()
-            
-            return redirect(reverse_lazy('vendedores'))
-   
-    else:
-        myForm = VendedorForm()
-
-    return render(request, "aplicacion/vendedor/vendedorForm.html", {"form": myForm})
-
-@login_required
-def vendedorUpdate(request, id_vendedor):
-    vendedor = Vendedor.objects.get(id=id_vendedor)
-
-    if request.method == "POST":
-        myForm = VendedorForm(request.POST)
-
-        if myForm.is_valid():
-            vendedor.nombre = myForm.cleaned_data.get("nombre")
-            vendedor.apellido = myForm.cleaned_data.get("apellido")
-            vendedor.email = myForm.cleaned_data.get("email")
-            vendedor.rubro = myForm.cleaned_data.get("rubro")
-            vendedor.save()
-
-            return redirect(reverse_lazy('vendedores'))
-
-    else:
-        myForm = VendedorForm(initial={'nombre':vendedor.nombre, 'apellido':vendedor.apellido, 'email':vendedor.email, 'rubro':vendedor.rubro})
-
-    return render(request, "aplicacion/vendedor/vendedorForm.html", {"form": myForm})
-
-@login_required
-def vendedorDelete(request, id_vendedor):
-    vendedor = Vendedor.objects.get(id=id_vendedor)
-    vendedor.delete()
-
-    return redirect(reverse_lazy('vendedores'))
-
-@login_required
-def vendedorBuscar(request):
-    return render(request, "aplicacion/vendedor/vendedorBuscar.html")
+class VendedorDelete(LoginRequiredMixin, DeleteView):
+    model = Vendedor
+    template_name = 'aplicacion/vendedor/vendedor_confirm_delete.html'
+    success_url = reverse_lazy('vendedores')
 
 @login_required
 def vendedorEncontrar(request):
     if request.GET["buscar"]:
         patron = request.GET["buscar"]
         vendedores = Vendedor.objects.filter(nombre__icontains=patron)
-        context = { 'vendedores': vendedores }
-        return render(request, 'aplicacion/vendedor/vendedores.html', context)
+        context = { 'vendedor_list': vendedores }
+        return render(request, 'aplicacion/vendedor/vendedor_list.html', context)
     
-    context = { 'vendedores': Vendedor.objects.all() }
-    return render(request, 'aplicacion/vendedor/vendedores.html', context)
+    context = { 'vendedor_list': Vendedor.objects.all() }
+    return render(request, 'aplicacion/vendedor/vendedor_list.html', context)
 
 # Comprador
 class CompradorList(LoginRequiredMixin, ListView):
@@ -167,19 +107,24 @@ class CompradorDelete(LoginRequiredMixin, DeleteView):
     template_name = 'aplicacion/comprador/comprador_confirm_delete.html'
     success_url = reverse_lazy('compradores')
 
+def compradorEncontrar(request):
+    if request.GET["buscar"]:
+        patron = request.GET["buscar"]
+        compradores = Comprador.objects.filter(nombre__icontains=patron)
+        context = { 'comprador_list': compradores }
+        return render(request, 'aplicacion/comprador/comprador_list.html', context)
+    
+    context = { 'comprador_list': Comprador.objects.all() }
+    return render(request, 'aplicacion/comprador/comprador_list.html', context)
+
+
 # Venta
 @login_required
 def ventas(request):
     context = { 'ventas': Venta.objects.all().order_by("id") }
     return render(request, 'aplicacion/venta/ventas.html', context)
 
-# Adicionales
-def acerca(request):
-    return render(request, 'aplicacion/acerca.html')
-
-
 #Auth
-
 def login_request(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -188,6 +133,14 @@ def login_request(request):
 
         if user is not None:
             login(request, user)
+
+            try:
+                avatar = Avatar.objects.get(user=request.user.id).imagen.url
+            except:
+                avatar = "/media/avatares/default.png"
+            finally:
+                request.session["avatar"] = avatar
+
             return render(request, "aplicacion/home.html")
         else:
             return redirect(reverse_lazy('login'))
@@ -209,3 +162,90 @@ def register(request):
         myForm = RegisterForm()
 
     return render(request, "aplicacion/register.html", {"form": myForm})
+
+# Edicion de perfil
+@login_required
+def editProfile(request):
+
+    user = request.user
+
+    if request.method == "POST":
+        myForm = ProfileForm(request.POST)
+
+        if myForm.is_valid():
+
+            _user = User.objects.get(username=user)
+
+            email = myForm.cleaned_data.get('email')
+            first_name = myForm.cleaned_data.get('first_name')
+            last_name = myForm.cleaned_data.get('last_name')
+
+            _user.email = email
+            _user.first_name = first_name
+            _user.last_name = last_name
+
+            _user.save()
+
+            return redirect(reverse_lazy('home'))
+        else:
+            return redirect(reverse_lazy('home'))
+    else:
+        myForm = ProfileForm(instance=user)
+
+    return render(request, "aplicacion/profile.html", {"form": myForm})
+
+@login_required
+def editPassword(request):
+
+    user = request.user
+
+    if request.method == "POST":
+        myForm = PasswordChangeForm(user, data=request.POST or None)
+
+        if myForm.is_valid():
+            myForm.save()
+            update_session_auth_hash(request, myForm.user)
+            return render(request, 'aplicacion/password_change_success.html', {'form': myForm})
+        else:
+
+            for field in myForm:
+                for error in field.errors:
+                    messages.error(request, f"{field.label}: {error}")
+
+            return render(request, 'aplicacion/password_change.html', {'form': myForm})
+    else:
+        myForm = PasswordChangeForm(user)
+
+    return render(request, "aplicacion/password_change.html", {"form": myForm})
+
+@login_required
+def addAvatar(request):
+    if request.method == "POST":
+        miForm = AvatarForm(request.POST, request.FILES)
+
+        if miForm.is_valid():
+            usuario = User.objects.get(username=request.user)
+
+            #___ Borrar avatares viejos
+            avatarViejo = Avatar.objects.filter(user=usuario)
+            if len(avatarViejo) > 0:
+                for i in range(len(avatarViejo)):
+                    avatarViejo[i].delete()
+            #____________________________________________________
+                    
+            avatar = Avatar(user=usuario,
+                            imagen=miForm.cleaned_data["imagen"])
+            avatar.save()
+            imagen = Avatar.objects.get(user=usuario).imagen.url
+            request.session["avatar"] = imagen
+            
+            return redirect(reverse_lazy('home'))
+    else:
+    # __ Si ingresa en el else es la primera vez 
+        miForm = AvatarForm()
+
+    return render(request, "aplicacion/add_avatar.html", {"form": miForm} )
+
+# Adicionales
+def acerca(request):
+    return render(request, 'aplicacion/acerca.html')

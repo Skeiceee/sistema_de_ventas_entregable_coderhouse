@@ -4,7 +4,7 @@
 {% block titulo %}
     
 <h1 class="text-3xl text-center font-bold">
-    Registro
+    Perfil de {{ user }}
 </h1>
 
 {% endblock titulo %}
@@ -12,6 +12,7 @@
 
 
 {% block contenido %}
+<div class="flex flex-col justify-center">
     <form class="form-style" action="" method="POST">
         
         {% csrf_token %}
@@ -25,4 +26,9 @@
         </div>
 
     </form>
+
+    <div class="mt-10 flex justify-center">
+        <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{% url 'password_change' %}">Cambiar contraseña</a>
+    </div>
+</div>
 {% endblock contenido %}

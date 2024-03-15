@@ -8,7 +8,7 @@
     </h1>
     <div class="flex flex-wrap content-center">
         <a href="{% url 'comprador_create' %}" class="font-medium text-black p-4 py-2 border-2 border-transparent hover:border-inherit hover:border-2 hover:rounded-2xl mr-2"><span class="mr-2"><i class="fa-solid fa-plus"></i></span> Agregar Comprador</a>
-        <form action="" method="GET">
+        <form action="{% url 'comprador_encontrar' %}" method="GET">
             {% csrf_token %}
     
             <input type="text" name="buscar" id="buscar" class="p-2 border-2 border-black rounded-xl">
