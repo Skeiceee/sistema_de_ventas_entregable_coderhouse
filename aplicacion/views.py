@@ -126,14 +126,24 @@ class VentaList(LoginRequiredMixin, ListView):
 class VentaCreate(LoginRequiredMixin, CreateView):
     model = Venta
     template_name = 'aplicacion/venta/venta_form.html'
-    fields = ["nombreVendedor", "nombreComprador", "fechaDeCompra", "entregado"]
+    fields = ["nombreVendedor", "nombreComprador", "entregado"]
     success_url = reverse_lazy('vendedores')
 
+    class Meta:
+        labels = {
+            'nombreVendedor':  "Nombre del vendedor"
+        }
+        
 class VentaUpdate(LoginRequiredMixin, UpdateView):
     model = Venta
     template_name = 'aplicacion/venta/venta_form.html'
-    fields = ["nombreVendedor", "nombreComprador", "fechaDeCompra", "entregado"]
+    fields = ["nombreVendedor", "nombreComprador", "entregado"]
     success_url = reverse_lazy('vendedores')
+
+    class Meta:
+        labels = {
+            'nombreVendedor':  "Nombre del vendedor"
+        }
 
 class VentaDelete(LoginRequiredMixin, DeleteView):
     model = Venta
@@ -143,7 +153,7 @@ class VentaDelete(LoginRequiredMixin, DeleteView):
 def ventaEncontrar(request):
     if request.GET["buscar"]:
         patron = request.GET["buscar"]
-        ventas = Venta.objects.filter(nombre__icontains=patron)
+        ventas = Venta.objects.filter(nombreVendedor__icontains=patron)
         context = { 'venta_list': ventas }
         return render(request, 'aplicacion/venta/venta_list.html', context)
     

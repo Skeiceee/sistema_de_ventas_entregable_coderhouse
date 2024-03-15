@@ -40,13 +40,12 @@ class Vendedor(models.Model):
         return f"{self.nombre} {self.apellido}"
     
 class Venta(models.Model):
-    nombreVendedor = models.CharField(max_length = 40)
-    nombreComprador = models.CharField(max_length = 40)
-    fechaDeCompra = models.DateField()
+    nombreVendedor = models.CharField(verbose_name="Nombre del vendedor",max_length = 40)
+    nombreComprador = models.CharField(verbose_name="Nombre del comprador", max_length = 40)
     entregado = models.BooleanField()
 
     class Meta:
-        ordering = ["nombreVendedor", "nombreComprador", "fechaDeCompra"]
+        ordering = ["nombreVendedor", "nombreComprador"]
 
     def __str__(self):
         return f"{self.nombre}"
