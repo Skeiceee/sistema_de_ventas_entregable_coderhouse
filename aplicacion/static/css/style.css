@@ -1,0 +1,41 @@
+.form-style{
+
+    table input{
+        padding: 5px !important;
+        border-radius: 10px;
+        border: 2px solid black;
+        margin-top: 0px !important;
+    }
+
+    th, label{
+        text-align: left !important;
+    }
+
+    tr, th{
+        padding: 10px;
+    }
+
+
+    .btn-submit{
+        color: white;
+        background-color: black;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    .btn-submit:hover{
+        color: white;
+        background-color: #202020;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+}

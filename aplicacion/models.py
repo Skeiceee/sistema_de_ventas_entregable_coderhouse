@@ -1,7 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
-# Vendedor, Comprador, Producto, Venta
+# Vendedor, Comprador, Producto, Venta, Avatar
 
 class Producto(models.Model):
     nombre = models.CharField(max_length = 40)
@@ -39,13 +40,20 @@ class Vendedor(models.Model):
         return f"{self.nombre} {self.apellido}"
     
 class Venta(models.Model):
-    nombreVendedor = models.CharField(max_length = 40)
-    nombreComprador = models.CharField(max_length = 40)
-    fechaDeCompra = models.DateField()
+    nombreVendedor = models.CharField(verbose_name="Nombre del vendedor",max_length = 40)
+    nombreComprador = models.CharField(verbose_name="Nombre del comprador", max_length = 40)
+    nombreProducto = models.CharField(verbose_name="Nombre del Producto", max_length = 40, default='')
     entregado = models.BooleanField()
 
     class Meta:
-        ordering = ["nombreVendedor", "nombreComprador", "fechaDeCompra"]
+        ordering = ["nombreVendedor", "nombreComprador"]
 
     def __str__(self):
         return f"{self.nombre}"
+    
+class Avatar(models.Model):
+    imagen = models.ImageField(upload_to="avatares")   
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user} {self.imagen}"

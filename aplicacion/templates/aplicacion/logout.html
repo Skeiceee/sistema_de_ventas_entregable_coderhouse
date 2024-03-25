@@ -1,0 +1,19 @@
+{% extends 'layout/index.html' %}
+
+
+{% block titulo %}
+    
+<h1 class="text-3xl text-center font-bold">
+    Logout
+</h1>
+
+{% endblock titulo %}
+    
+
+
+{% block contenido %}
+    <div class="flex justify-center text-center flex-col">
+        <span class="text-xl">Cerraste sesión exitosamente!</span>
+        <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline mt-2" href="{% url 'home' %}">Volver al home</a>
+    </div>
+{% endblock contenido %}

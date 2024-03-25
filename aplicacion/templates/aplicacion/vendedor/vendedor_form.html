@@ -1,0 +1,28 @@
+{% extends 'layout/index.html' %}
+
+
+{% block titulo %}
+    
+<h1 class="text-3xl text-center font-bold">
+    Agregar Vendedor
+</h1>
+
+{% endblock titulo %}
+    
+
+
+{% block contenido %}
+    <form class="form-style" action="" method="POST">
+        
+        {% csrf_token %}
+
+        <table>
+            {{ form.as_table }}
+        </table>
+
+        <div class="mt-10 flex justify-center">
+            <input class="btn-submit" type="submit" value="Enviar"></input>
+        </div>
+        
+    </form>
+{% endblock contenido %}
