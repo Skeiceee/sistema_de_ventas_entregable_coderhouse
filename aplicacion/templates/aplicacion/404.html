@@ -1,0 +1,20 @@
+{% extends 'layout/index.html' %}
+
+
+{% block titulo %}
+    
+<h1 class="text-3xl text-center font-bold">
+    404 Not Found
+</h1>
+
+{% endblock titulo %}
+    
+
+
+{% block contenido %}
+
+    <div class="flex justify-center items-center">
+        <a class="btn-submit" href="{% url 'home' %}">Ir al Home</a>
+    </div>
+
+{% endblock contenido %}

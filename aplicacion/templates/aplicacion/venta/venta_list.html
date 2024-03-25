@@ -31,8 +31,10 @@
         <thead class="bg-slate-50 dark:bg-slate-700">
             <tr>
                 <th class="border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Id</th>
-                <th class="border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Nombre</th>
-                <th class="border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Detalle</th>
+                <th class="border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Nombre del Vendedor</th>
+                <th class="border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Nombre del Comprador</th>
+                <th class="border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Producto</th>
+                <th class="border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Entregado</th>
                 <th class="w-10 border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">Acciones</th>
             </tr>
         </thead>
@@ -40,8 +42,17 @@
             {% for venta in venta_list %}
                 <tr>
                     <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ venta.id }}</td>
-                    <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ venta.nombre }}</td>
-                    <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ venta.detalle }}</td>
+                    <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ venta.nombreVendedor }}</td>
+                    <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ venta.nombreComprador }}</td>
+                    <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ venta.nombreProducto }}</td>
+                    <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ venta.nombreComprador }}</td>
+                    
+                    {% if venta.entregado %}
+                        <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400"><span class="text-green-500"><i class="fa-regular fa-circle-check"></i></span></td>
+                    {% else %}
+                        <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400"><span class="text-red-500"><i class="fa-regular fa-circle-xmark"></i></span></td>
+                    {% endif %}
+                        
                     <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">
                         <div class="flex justify-between gap-2">
                             <a href="{% url 'venta_update' venta.id %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><i class="fa-solid fa-pen-to-square"></i></a>
@@ -51,7 +62,7 @@
                 </tr>
             {% empty %}
                 <tr>
-                    <th colspan="4" class="p-5">No hay ventas</th>
+                    <th colspan="6" class="p-5">No hay ventas</th>
                 </tr>
             {% endfor %}
         </tbody>

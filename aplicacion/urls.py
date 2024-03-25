@@ -16,6 +16,7 @@ urlpatterns = [
     path('agregar/avatar/', addAvatar, name="add_avatar"),
 
     path('productos/', ProductoList.as_view(), name="productos"),
+    path('productos/vista/<slug:porducto_id>', ProductoView, name="producto_view"),
     path('productos/agregar', ProductoCreate.as_view(), name="producto_create"),
     path('productos/editar/<int:pk>', ProductoUpdate.as_view(), name="producto_update"),
     path('productos/eliminar/<int:pk>', ProductoDelete.as_view(), name="producto_delete"),
@@ -38,5 +39,4 @@ urlpatterns = [
     path('ventas/editar/<int:pk>', VentaUpdate.as_view(), name="venta_update"),
     path('ventas/eliminar/<int:pk>', VentaDelete.as_view(), name="venta_delete"),
     path('ventas/encontrar', ventaEncontrar , name="venta_encontrar"),
-
 ]

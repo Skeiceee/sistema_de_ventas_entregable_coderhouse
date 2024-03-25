@@ -42,6 +42,7 @@ class Vendedor(models.Model):
 class Venta(models.Model):
     nombreVendedor = models.CharField(verbose_name="Nombre del vendedor",max_length = 40)
     nombreComprador = models.CharField(verbose_name="Nombre del comprador", max_length = 40)
+    nombreProducto = models.CharField(verbose_name="Nombre del Producto", max_length = 40, default='')
     entregado = models.BooleanField()
 
     class Meta:

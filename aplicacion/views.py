@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-
 from .models import *
 from .forms import *
 
@@ -41,6 +40,17 @@ class ProductoDelete(LoginRequiredMixin, DeleteView):
     template_name = 'aplicacion/producto/producto_confirm_delete.html'
     success_url = reverse_lazy('productos')
 
+@login_required
+def ProductoView(request, porducto_id):
+    try:
+        producto = Producto.objects.get(pk=porducto_id)
+
+        if producto:
+            context = { 'producto': producto }
+            return render(request, 'aplicacion/producto/producto_view.html', context)
+    except:
+        return render(request, 'aplicacion/404.html')
+    
 @login_required
 def productoEncontrar(request):
     if request.GET["buscar"]:
@@ -126,7 +136,7 @@ class VentaList(LoginRequiredMixin, ListView):
 class VentaCreate(LoginRequiredMixin, CreateView):
     model = Venta
     template_name = 'aplicacion/venta/venta_form.html'
-    fields = ["nombreVendedor", "nombreComprador", "entregado"]
+    fields = ["nombreVendedor", "nombreComprador",  "nombreProducto", "entregado"]
     success_url = reverse_lazy('vendedores')
 
     class Meta:
@@ -137,8 +147,8 @@ class VentaCreate(LoginRequiredMixin, CreateView):
 class VentaUpdate(LoginRequiredMixin, UpdateView):
     model = Venta
     template_name = 'aplicacion/venta/venta_form.html'
-    fields = ["nombreVendedor", "nombreComprador", "entregado"]
-    success_url = reverse_lazy('vendedores')
+    fields = ["nombreVendedor", "nombreComprador", "nombreProducto","entregado"]
+    success_url = reverse_lazy('ventas')
 
     class Meta:
         labels = {
