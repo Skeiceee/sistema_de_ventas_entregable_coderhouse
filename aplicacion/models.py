@@ -49,7 +49,7 @@ class Venta(models.Model):
         ordering = ["nombreVendedor", "nombreComprador"]
 
     def __str__(self):
-        return f"{self.nombre}"
+        return f"{self.nombreVendedor} vendio a {self.nombreComprador} lo siguiente: \"{self.nombreProducto}\""
     
 class Avatar(models.Model):
     imagen = models.ImageField(upload_to="avatares")   

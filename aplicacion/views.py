@@ -137,7 +137,7 @@ class VentaCreate(LoginRequiredMixin, CreateView):
     model = Venta
     template_name = 'aplicacion/venta/venta_form.html'
     fields = ["nombreVendedor", "nombreComprador",  "nombreProducto", "entregado"]
-    success_url = reverse_lazy('vendedores')
+    success_url = reverse_lazy('ventas')
 
     class Meta:
         labels = {
