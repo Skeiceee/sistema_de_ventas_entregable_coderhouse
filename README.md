@@ -1,3 +1,5 @@
+# Aplicacion de ventas
+
 Preview: https://www.youtube.com/watch?v=6Cme_4f_XWM
 
 https://github.com/Skeiceee/sistema_de_ventas_entregable_coderhouse/assets/12854219/0043c956-25b8-4684-af81-0a550fdcd90c
@@ -53,6 +55,11 @@ Contiene:
 
 
 # General
+
+Los test se encuentran en la raiz del proyecto llamado ***Tests.xlsx***
+  * \Tests.xlsx
+
+![image](https://github.com/Skeiceee/sistema_de_ventas_entregable_coderhouse/assets/12854219/ce7f2641-d647-4f0d-9bbe-0f2207675975)
 
 Los modelos se encuentran en:
   * aplicacion\models.py
